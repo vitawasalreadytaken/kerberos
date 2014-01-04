@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import daemon, logging, re, sh, sys, tweepy
+import daemon, datetime, logging, re, sh, sys, time, tweepy
 
 
 def sendDm(credentials, recipients, text):
@@ -10,6 +10,10 @@ def sendDm(credentials, recipients, text):
 	for user in recipients:
 		logging.info('Sending "%s" to @%s.', text, user)
 		api.send_direct_message(user = user, text = text)
+
+
+def getDateTime():
+	return '{0:s}{1:+d}'.format(datetime.datetime.now().strftime('%m/%d %H.%M.%S'), time.timezone / 3600)
 
 
 def main(argv, settings):
@@ -22,7 +26,7 @@ def main(argv, settings):
 			match = re.search(settings.MATCH_LINES, line)
 			logging.debug('Looking for "%s" in "%s" -> %r.', settings.MATCH_LINES, line, bool(match))
 			if match:
-				message = '{0}: {1}'.format(sh.hostname('-s').strip(), match.group(0))
+				message = '[{stamp}] {host}: {match}'.format(stamp = getDateTime(), host = sh.hostname('-s').strip(), match = match.group(0))
 				sendDm(settings.TWITTER_AUTH, settings.DM_RECIPIENTS, message)
 
 		first = False
