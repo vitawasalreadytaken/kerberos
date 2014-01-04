@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import logging, re, sh, sys, tweepy
+import daemon, logging, re, sh, sys, tweepy
 
 
 def sendDm(credentials, recipients, text):
@@ -31,4 +31,7 @@ def main(argv, settings):
 
 if __name__ == '__main__':
 	import settings
+	if '--foreground' not in sys.argv:
+		d = daemon.DaemonContext()
+		d.open()
 	sys.exit(main(sys.argv, settings) or 0)

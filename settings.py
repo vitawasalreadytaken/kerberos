@@ -1,7 +1,7 @@
 import os
 from dicto import dicto
 
-LOG_FILE = None #os.path.join(os.path.dirname(__file__), 'kerberos.log')
+LOG_FILE = os.path.join(os.path.dirname(__file__), 'kerberos.log')
 STATE_DB = os.path.join(os.path.dirname(__file__), 'state.db')
 
 WATCH_LOG = '/var/log/auth.log'
