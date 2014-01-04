@@ -22,7 +22,7 @@ def main(argv, settings):
 			match = re.search(settings.MATCH_LINES, line)
 			logging.debug('Looking for "%s" in "%s" -> %r.', settings.MATCH_LINES, line, bool(match))
 			if match:
-				message = '{0}: {1}'.format(sh.hostname().strip(), match.group(0))
+				message = '{0}: {1}'.format(sh.hostname('-s').strip(), match.group(0))
 				sendDm(settings.TWITTER_AUTH, settings.DM_RECIPIENTS, message)
 
 		first = False
