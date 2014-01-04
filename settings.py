@@ -15,8 +15,6 @@ TWITTER_AUTH = dicto({
 
 DM_RECIPIENTS = ()
 
-MIN_REPORT_INTERVAL = 7200
-
 
 try:
 	from settings_local import *
