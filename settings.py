@@ -5,6 +5,7 @@ LOG_FILE = None #os.path.join(os.path.dirname(__file__), 'kerberos.log')
 STATE_DB = os.path.join(os.path.dirname(__file__), 'state.db')
 
 WATCH_LOG = '/var/log/auth.log'
+MATCH_LINES = r'Accepted \S+ for \S+ from \S+'
 
 TWITTER_AUTH = dicto({
 	'CONSUMER_TOKEN': '',

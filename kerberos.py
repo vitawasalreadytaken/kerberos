@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import logging, sh, shelve, sys, tweepy
+import logging, re, sh, shelve, sys, tweepy
 
 
 def sendDm(credentials, recipients, text):
@@ -8,12 +8,12 @@ def sendDm(credentials, recipients, text):
 	auth.set_access_token(credentials.ACCESS_TOKEN_KEY, credentials.ACCESS_TOKEN_SECRET)
 	api = tweepy.API(auth)
 	for user in recipients:
+		logging.info('Sending "%s" to @%s.', text, user)
 		api.send_direct_message(user = user, text = text)
 
 
 def main(argv, settings):
-	if settings.LOG_FILE:
-		logging.basicConfig(filename = settings.LOG_FILE, level = logging.INFO, format='[%(asctime)s][%(levelname)s] %(message)s')
+	logging.basicConfig(filename = settings.LOG_FILE, level = logging.DEBUG, format='[%(asctime)s][%(levelname)s] %(message)s')
 
 	# Open (and possibly initialize) our state database.
 	#state = shelve.open(settings.STATE_DB, writeback = True)
@@ -25,8 +25,12 @@ def main(argv, settings):
 	for line in sh.tail('-f', settings.WATCH_LOG, _iter=True):
 		line = line.strip()
 		if not first:
-			#sendDm(settings.TWITTER_AUTH, settings.DM_TO, line)
-			print line
+			match = re.search(settings.MATCH_LINES, line)
+			logging.debug('Looking for "%s" in "%s" -> %r.', settings.MATCH_LINES, line, bool(match))
+			if match:
+				message = '{0}: {1}'.format(sh.hostname().strip(), match.group(0))
+				sendDm(settings.TWITTER_AUTH, settings.DM_TO, message)
+
 		first = False
 
 
