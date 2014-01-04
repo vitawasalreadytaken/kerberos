@@ -13,7 +13,7 @@ def sendDm(credentials, recipients, text):
 
 
 def getDateTime():
-	return '{0:s}{1:+d}'.format(datetime.datetime.now().strftime('%m/%d %H.%M.%S'), time.timezone / 3600)
+	return '{:s}{:+.1f}'.format(datetime.datetime.now().strftime('%m/%d %H:%M:%S'), time.timezone / 3600.)
 
 
 def main(argv, settings):
@@ -26,7 +26,7 @@ def main(argv, settings):
 			match = re.search(settings.MATCH_LINES, line)
 			logging.debug('Looking for "%s" in "%s" -> %r.', settings.MATCH_LINES, line, bool(match))
 			if match:
-				message = '[{stamp}] {host}: {match}'.format(stamp = getDateTime(), host = sh.hostname('-s').strip(), match = match.group(0))
+				message = '[{stamp}][{host}] {match}'.format(stamp = getDateTime(), host = sh.hostname('-s').strip(), match = match.group(0))
 				sendDm(settings.TWITTER_AUTH, settings.DM_RECIPIENTS, message)
 
 		first = False
