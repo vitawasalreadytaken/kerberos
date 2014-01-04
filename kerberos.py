@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import logging, re, sh, shelve, sys, tweepy
+import logging, re, sh, sys, tweepy
 
 
 def sendDm(credentials, recipients, text):
@@ -14,12 +14,6 @@ def sendDm(credentials, recipients, text):
 
 def main(argv, settings):
 	logging.basicConfig(filename = settings.LOG_FILE, level = logging.DEBUG, format='[%(asctime)s][%(levelname)s] %(message)s')
-
-	# Open (and possibly initialize) our state database.
-	#state = shelve.open(settings.STATE_DB, writeback = True)
-	#if not 'reportTimes' in state:
-	#	state['reportTimes'] = {}
-	#state.close()
 
 	first = True
 	for line in sh.tail('-f', settings.WATCH_LOG, _iter=True):
