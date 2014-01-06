@@ -4,8 +4,8 @@ import daemon, datetime, logging, re, sh, sys, time, tweepy
 
 
 def sendDm(credentials, recipients, text):
-	auth = tweepy.OAuthHandler(credentials.CONSUMER_TOKEN, credentials.CONSUMER_SECRET)
-	auth.set_access_token(credentials.ACCESS_TOKEN_KEY, credentials.ACCESS_TOKEN_SECRET)
+	auth = tweepy.OAuthHandler(credentials['CONSUMER_TOKEN'], credentials['CONSUMER_SECRET'])
+	auth.set_access_token(credentials['ACCESS_TOKEN_KEY'], credentials['ACCESS_TOKEN_SECRET'])
 	api = tweepy.API(auth)
 	for user in recipients:
 		logging.info('Sending "%s" to @%s.', text, user)
