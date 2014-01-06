@@ -13,7 +13,7 @@ TWITTER_AUTH = dicto({
 	'ACCESS_TOKEN_SECRET': '',
 })
 
-DM_RECIPIENTS = ()
+DM_RECIPIENTS = []
 
 
 try:
